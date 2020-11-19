@@ -67,7 +67,7 @@ var turnplate={
 
 $(document).ready(function(){
 	//动态添加大转盘的奖品与奖品区域背景颜色
-	turnplate.restaraunts = ["拍立得一个", "京东300元红包", "RTX3090", "天猫300元红包", "RTX3070", "30元现金红包", "谢谢参与", "50元现金红包"];
+	turnplate.restaraunts = ["拍立得", "10元现金红包", "拍立得相机纸", "30元现金红包", "iphone12", "50元现金红包", "免单", "100元现金红包"];
 	turnplate.colors = ["#FFFFFF","#5fcbd5", "#FFFFFF", "#5fcbd5", "#FFFFFF","#5fcbd5", "#FFFFFF", "#5fcbd5" ];
 
 	
@@ -96,7 +96,7 @@ $(document).ready(function(){
 			animateTo:angles+1800,
 			duration:8000,
 			callback:function (){	//回调
-				alert('恭喜你中奖了！拍立得一个');
+				alert('恭喜你中奖了！' + turnplate.restaraunts[randonNum - 1] + '一个');
 				
 			}
 		});
@@ -145,10 +145,11 @@ $(document).ready(function(){
 	});
 });
 
+var randonNum
 function rnd(n, m){
 	// var random = Math.floor(Math.random()*(m-n+1)+n);
-	var random = 1;
-	return random;
+	randonNum = 1;
+	return randonNum;
 	
 }
 
@@ -245,9 +246,9 @@ function drawRouletteWheel() {
 		  if(text.indexOf(turnplate.restaraunts[2])>=0){
 			  var img= document.getElementById("diy5-img");			
 			  img.onload=function(){  
-				  ctx.drawImage(img,-25,35);      
+				  ctx.drawImage(img,-32,18);
 			  };  
-			  ctx.drawImage(img,-30,35);  
+			  ctx.drawImage(img,-32,18);
 		  };
 		  if(text.indexOf(turnplate.restaraunts[3])>=0){
 			  var img= document.getElementById("shan-img");
@@ -259,9 +260,9 @@ function drawRouletteWheel() {
 		  if(text.indexOf(turnplate.restaraunts[4])>=0){
 			  var img= document.getElementById("diy3-img");
 			  img.onload=function(){  
-				  ctx.drawImage(img,-30,20);      
+				  ctx.drawImage(img,-20,20);
 			  };  
-			  ctx.drawImage(img,-30,20);  
+			  ctx.drawImage(img,-20,20);
 		  };
 		  if(text.indexOf(turnplate.restaraunts[5])>=0){
 			  var img= document.getElementById("shan-img");
