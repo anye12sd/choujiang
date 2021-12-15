@@ -39,11 +39,11 @@ html,body{height: 100%;width: 100%;margin:0;padding: 0;}
 }
 .project {
     float: left;
-    width: 199px;
-    height: 280px;
+    width: 178px;
+    height: 250px;
 }
 .grid {
-    width: 1170px;
+    width: 1000px;
     margin: 0 auto;
     position: relative;
 }
@@ -64,14 +64,14 @@ div.projects .controls {
 }
 div.projects .controls {
     float: left;
-    width: 199px;
-    height: 280px;
+    width: 178px;
+    height: 250px;
 }
 .controls .mask {
     float: left;
     position: relative;
     background: url(../img/project_card_bg.png) no-repeat;
-    background-size: 199px;
+    background-size: 178px;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -87,11 +87,11 @@ div.projects .controls .bottom{
 }
 div.projects .controls .bottom {
     background: url(../img/project_card_bot_bg.png) no-repeat;
-    background-size: 199px;
+    background-size: 178px;
     position: absolute;
     bottom: -9px;
     right: 0;
-    width: 199px;
+    width: 178px;
     height: 66px;
 }
 
@@ -114,58 +114,58 @@ div.projects .controls:hover .bottom {
 
 
 .project.ani0 {
-    right: 948px;
-    bottom: 306px;
+    right: 864px;
+    bottom: 266px;
 }
 .project.ani1 {
-    right: 711px;
-    bottom: 306px;
+    right: 644px;
+    bottom: 266px;
 }
 .project.ani2 {
-    right: 474px;
-    bottom: 306px;
+    right: 424px;
+    bottom: 266px;
 }
 .project.ani3 {
-    right: 237px;
-    bottom: 306px;
+    right: 207px;
+    bottom: 266px;
 }
 
 
 .project.ani4 {
-    right: 948px;
+    right: 864px;
     bottom: 0px;
 }
 .project.ani5 {
-    right: 711px;
+    right: 644px;
     bottom: 0px;
 }
 .project.ani6 {
-    right: 474px;
+    right: 424px;
     bottom: 0px;
 }
 .project.ani7 {
-    right: 237px;
+    right: 207px;
     bottom: 0px;
 }
 
 .project.ani8 {
-    right: 948px;
-    bottom: -306px;
+    right: 864px;
+    bottom: -266px;
 }
 .project.ani9 {
-    right: 711px;
-    bottom: -306px;
+    right: 644px;
+    bottom: -266px;
 }
 .project.ani10 {
-    right: 474px;
-    bottom: -306px;
+    right: 424px;
+    bottom: -266px;
 }
 .project.ani11 {
-    right: 237px;
-    bottom: -306px;
+    right: 207px;
+    bottom: -266px;
 }
 
-.project span{display: inline-block;border-radius: 50%;width: 160px;height: 160px;margin-top: 75px;}
+.project span{display: inline-block;border-radius: 50%;width: 140px;height: 140px;margin-top: 50px;}
 .project.ani0 span{background: #ef4036;}
 .project.ani1 span{background: #ff6c00;}
 .project.ani2 span{background: #ffde00;}
@@ -180,8 +180,8 @@ div.projects .controls:hover .bottom {
 .project.ani11 span{background: #d50533;}
 
 .aniwz {
-    width: 199px;
-    height: 280px;
+    width: 178px;
+    height: 250px;
     position: absolute;
     right: 0;
     bottom: 666px;
@@ -190,10 +190,10 @@ div.projects .controls:hover .bottom {
     font-size: 50px;
 }
 .text{padding-top: 110px;}
-.start{padding-top: 130px;}
+.start{padding-top: 100px;}
 .project .front {
     background: url(../img/project_front_bg.png) no-repeat;
-    background-size: 199px;
+    background-size: 178px;
     display: table;
 }
 .project .back, .project .front {
@@ -203,7 +203,7 @@ div.projects .controls:hover .bottom {
 }
 .project .back {
     background: url(../img/project_back_bg.png) no-repeat;
-    background-size: 199px;
+    background-size: 178px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: -webkit-flex;
@@ -217,14 +217,14 @@ div.projects .controls:hover .bottom {
     -webkit-align-items: center;
     align-items: center;
     color: #fff;
-    font-size: 42px;
+    font-size: 36px;
 }
 .project .back, .project .front {
     position: absolute;
     left: 0;
     bottom: 326px;
-    width: 199px;
-    height: 280px;
+    width: 178px;
+    height: 250px;
     padding: 0 16px;
     text-align: center;
 }
