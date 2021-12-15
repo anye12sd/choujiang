@@ -39,8 +39,8 @@ html,body{height: 100%;width: 100%;margin:0;padding: 0;}
 }
 .project {
     float: left;
-    width: 222px;
-    height: 311px;
+    width: 199px;
+    height: 280px;
 }
 .grid {
     width: 1170px;
@@ -48,7 +48,7 @@ html,body{height: 100%;width: 100%;margin:0;padding: 0;}
     position: relative;
 }
 div.projects {
-    height: 652px;
+    height: 952px;
 }
 div.projects {
     float: left;
@@ -60,17 +60,18 @@ div.projects {
 div.projects .controls {
     position: absolute;
     right: 0;
-    bottom: 15px;
+    bottom: 342px;
 }
 div.projects .controls {
     float: left;
-    width: 222px;
-    height: 311px;
+    width: 199px;
+    height: 280px;
 }
 .controls .mask {
     float: left;
     position: relative;
     background: url(../img/project_card_bg.png) no-repeat;
+    background-size: 199px;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -86,10 +87,11 @@ div.projects .controls .bottom{
 }
 div.projects .controls .bottom {
     background: url(../img/project_card_bot_bg.png) no-repeat;
+    background-size: 199px;
     position: absolute;
     bottom: -9px;
     right: 0;
-    width: 222px;
+    width: 199px;
     height: 66px;
 }
 
@@ -113,37 +115,54 @@ div.projects .controls:hover .bottom {
 
 .project.ani0 {
     right: 948px;
-    bottom: 326px;
+    bottom: 306px;
 }
 .project.ani1 {
     right: 711px;
-    bottom: 326px;
+    bottom: 306px;
 }
 .project.ani2 {
     right: 474px;
-    bottom: 326px;
+    bottom: 306px;
 }
 .project.ani3 {
     right: 237px;
-    bottom: 326px;
+    bottom: 306px;
 }
 
 
 .project.ani4 {
     right: 948px;
-    bottom: 0;
+    bottom: 0px;
 }
 .project.ani5 {
     right: 711px;
-    bottom: 0;
+    bottom: 0px;
 }
 .project.ani6 {
     right: 474px;
-    bottom: 0;
+    bottom: 0px;
 }
 .project.ani7 {
     right: 237px;
-    bottom: 0;
+    bottom: 0px;
+}
+
+.project.ani8 {
+    right: 948px;
+    bottom: -306px;
+}
+.project.ani9 {
+    right: 711px;
+    bottom: -306px;
+}
+.project.ani10 {
+    right: 474px;
+    bottom: -306px;
+}
+.project.ani11 {
+    right: 237px;
+    bottom: -306px;
 }
 
 .project span{display: inline-block;border-radius: 50%;width: 160px;height: 160px;margin-top: 75px;}
@@ -151,25 +170,30 @@ div.projects .controls:hover .bottom {
 .project.ani1 span{background: #ff6c00;}
 .project.ani2 span{background: #ffde00;}
 .project.ani3 span{background: #0ce501;}
-.project.ani4 span{background: #05e7df;}
-.project.ani5 span{background: #007df1;}
-.project.ani6 span{background: #8e00f1;}
-.project.ani7 span{background: #000000;}
+.project.ani4 span{background: #03e093;}
+.project.ani5 span{background: #0bdcef;}
+.project.ani6 span{background: #3490ea;}
+.project.ani7 span{background: #2f37ce;}
+.project.ani8 span{background: #8c1cf3;}
+.project.ani9 span{background: #da0fe2;}
+.project.ani10 span{background: #e3056d;}
+.project.ani11 span{background: #d50533;}
 
 .aniwz {
-    width: 222px;
-    height: 311px;
+    width: 199px;
+    height: 280px;
     position: absolute;
     right: 0;
-    bottom: 326px;
+    bottom: 666px;
     margin: 0 0 15px 15px;
     text-align: center;
-    font-size: 32px;
+    font-size: 50px;
 }
 .text{padding-top: 110px;}
 .start{padding-top: 130px;}
 .project .front {
     background: url(../img/project_front_bg.png) no-repeat;
+    background-size: 199px;
     display: table;
 }
 .project .back, .project .front {
@@ -179,6 +203,7 @@ div.projects .controls:hover .bottom {
 }
 .project .back {
     background: url(../img/project_back_bg.png) no-repeat;
+    background-size: 199px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: -webkit-flex;
@@ -197,9 +222,9 @@ div.projects .controls:hover .bottom {
 .project .back, .project .front {
     position: absolute;
     left: 0;
-    top: 0;
-    width: 222px;
-    height: 311px;
+    bottom: 326px;
+    width: 199px;
+    height: 280px;
     padding: 0 16px;
     text-align: center;
 }

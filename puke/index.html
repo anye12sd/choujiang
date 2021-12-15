@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>jQuery扑克洗牌翻转效果代码</title>
+<title>圣诞快乐</title>
 
 <link rel="stylesheet" type="text/css" href="css/index.css">
 
@@ -14,78 +14,78 @@
       <div class="projects">
         <div class="project ">
           <div class="mask">
-            <div class="back">7</div>
+            <div class="back"></div>
             <div class="front"><span></span></div>
           </div>
         </div>
         <div class="project ">
           <div class="mask">
-            <div class="back">1</div>
+            <div class="back"></div>
             <div class="front"><span></span></div>
           </div>
         </div>
         <div class="project ">
           <div class="mask">
-            <div class="back">5</div>
+            <div class="back"></div>
             <div class="front"><span></span></div>
           </div>
         </div>
         <div class="project ">
           <div class="mask">
-            <div class="back">4</div>
+            <div class="back"></div>
             <div class="front"><span></span></div>
           </div>
         </div>
         <div class="project ">
           <div class="mask">
-            <div class="back">3</div>
+            <div class="back"></div>
             <div class="front"><span></span></div>
           </div>
         </div>
         <div class="project ">
           <div class="mask">
-            <div class="back">8</div>
+            <div class="back"></div>
             <div class="front"><span></span></div>
           </div>
         </div>
         <div class="project ">
           <div class="mask">
-            <div class="back">6</div>
+            <div class="back"></div>
             <div class="front"><span></span></div>
           </div>
         </div>
         <div class="project ">
           <div class="mask">
-            <div class="back">2</div>
+            <div class="back"></div>
             <div class="front"><span></span></div>
           </div>
         </div>
         <div class="project ">
           <div class="mask">
-            <div class="back">2</div>
+            <div class="back"></div>
             <div class="front"><span></span></div>
           </div>
         </div>
         <div class="project ">
           <div class="mask">
-            <div class="back">2</div>
+            <div class="back"></div>
             <div class="front"><span></span></div>
           </div>
         </div>
         <div class="project ">
           <div class="mask">
-            <div class="back">2</div>
+            <div class="back"></div>
             <div class="front"><span></span></div>
           </div>
         </div>
         <div class="project ">
           <div class="mask">
-            <div class="back">2</div>
+            <div class="back"></div>
             <div class="front"><span></span></div>
           </div>
         </div>
         <div class="aniwz ">
-          <div class="text">抽奖<br>游戏</div>
+          <div class="text">圣诞<br>快乐</div>
         </div>
         <div class="controls">
           <span class="bottom"></span>
@@ -108,6 +108,14 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
   $(function(){
+    let array = ['发财','发财','发财','发财','发财','发财','快乐','快乐','快乐','快乐','快乐','快乐']
+    array.sort(() => Math.random() - 0.5);
+    let dom = $('.project')
+    console.log(dom)
+    for(let i = 0 ; i < dom.length; i++){
+      console.log(11,$(dom[i]).find(".back"))
+      $(dom[i]).find(".back").text(array[i])
+    }
     $('.controls').click(function(){
       if($(this).hasClass('show')){
         $(this).removeClass('show');
