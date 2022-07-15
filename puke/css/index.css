@@ -39,8 +39,8 @@ html,body{height: 100%;width: 100%;margin:0;padding: 0;}
 }
 .project {
     float: left;
-    width: 178px;
-    height: 250px;
+    width: 150px;
+    height: 210px;
 }
 .grid {
     width: 1000px;
@@ -59,19 +59,19 @@ div.projects {
 }
 div.projects .controls {
     position: absolute;
-    right: 0;
+    right: -50px;
     bottom: 342px;
 }
 div.projects .controls {
     float: left;
-    width: 178px;
-    height: 250px;
+    width: 150px;
+    height: 210px;
 }
 .controls .mask {
     float: left;
     position: relative;
     background: url(../img/project_card_bg.png) no-repeat;
-    background-size: 178px;
+    background-size: 150px;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -91,7 +91,7 @@ div.projects .controls .bottom {
     position: absolute;
     bottom: -9px;
     right: 0;
-    width: 178px;
+    width: 150px;
     height: 66px;
 }
 
@@ -114,58 +114,69 @@ div.projects .controls:hover .bottom {
 
 
 .project.ani0 {
-    right: 864px;
+    right: 940px;
     bottom: 266px;
 }
 .project.ani1 {
-    right: 644px;
+    right: 750px;
     bottom: 266px;
 }
 .project.ani2 {
-    right: 424px;
+    right: 560px;
     bottom: 266px;
 }
 .project.ani3 {
-    right: 207px;
+    right: 370px;
     bottom: 266px;
 }
 
-
 .project.ani4 {
-    right: 864px;
-    bottom: 0px;
+    right: 180px;
+    bottom: 266px;
 }
 .project.ani5 {
-    right: 644px;
+    right: 940px;
     bottom: 0px;
 }
 .project.ani6 {
-    right: 424px;
+    right: 750px;
     bottom: 0px;
 }
 .project.ani7 {
-    right: 207px;
+    right: 560px;
     bottom: 0px;
 }
 
 .project.ani8 {
-    right: 864px;
-    bottom: -266px;
+    right: 370px;
+    bottom: 0px;
 }
 .project.ani9 {
-    right: 644px;
-    bottom: -266px;
+    right: 180px;
+    bottom: 0px;
 }
 .project.ani10 {
-    right: 424px;
+    right: 940px;
     bottom: -266px;
 }
 .project.ani11 {
-    right: 207px;
+    right: 750px;
+    bottom: -266px;
+}
+.project.ani12 {
+    right: 560px;
+    bottom: -266px;
+}
+.project.ani13 {
+    right: 370px;
+    bottom: -266px;
+}
+.project.ani14 {
+    right: 180px;
     bottom: -266px;
 }
 
-.project span{display: inline-block;border-radius: 50%;width: 140px;height: 140px;margin-top: 50px;}
+.project span{display: inline-block;border-radius: 50%;width: 100px;height: 100px;margin-top: 50px;}
 .project.ani0 span{background: #ef4036;}
 .project.ani1 span{background: #ff6c00;}
 .project.ani2 span{background: #ffde00;}
@@ -174,26 +185,29 @@ div.projects .controls:hover .bottom {
 .project.ani5 span{background: #0bdcef;}
 .project.ani6 span{background: #3490ea;}
 .project.ani7 span{background: #2f37ce;}
-.project.ani8 span{background: #8c1cf3;}
-.project.ani9 span{background: #da0fe2;}
-.project.ani10 span{background: #e3056d;}
-.project.ani11 span{background: #d50533;}
+.project.ani8 span{background: #3490ea;}
+.project.ani9 span{background: #0bdcef;}
+.project.ani10 span{background: #03e093;}
+.project.ani11 span{background: #0ce501;}
+.project.ani12 span{background: #ffde00;}
+.project.ani13 span{background: #ff6c00;}
+.project.ani14 span{background: #ef4036;}
 
 .aniwz {
     width: 178px;
     height: 250px;
     position: absolute;
-    right: 0;
-    bottom: 666px;
+    right: -50px;
+    bottom: 637px;
     margin: 0 0 15px 15px;
     text-align: center;
     font-size: 50px;
 }
 .text{padding-top: 110px;}
-.start{padding-top: 100px;}
+.start{padding-top: 80px;}
 .project .front {
     background: url(../img/project_front_bg.png) no-repeat;
-    background-size: 178px;
+    background-size: 150px;
     display: table;
 }
 .project .back, .project .front {
@@ -203,7 +217,7 @@ div.projects .controls:hover .bottom {
 }
 .project .back {
     background: url(../img/project_back_bg.png) no-repeat;
-    background-size: 178px;
+    background-size: 150px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: -webkit-flex;
@@ -217,14 +231,14 @@ div.projects .controls:hover .bottom {
     -webkit-align-items: center;
     align-items: center;
     color: #fff;
-    font-size: 36px;
+    font-size: 26px;
 }
 .project .back, .project .front {
     position: absolute;
-    left: 0;
+    left: 50px;
     bottom: 326px;
-    width: 178px;
-    height: 250px;
+    width: 150px;
+    height: 210px;
     padding: 0 16px;
     text-align: center;
 }
