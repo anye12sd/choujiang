@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微信大转盘抽奖</title>
+
+<style type="text/css">
+	body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div{margin:0;padding:0;border:0;}
+	body{color:#333; font-size:12px;font-family:"Microsoft YaHei";width: 100%;overflow-x: hidden}
+	ul,ol{list-style-type:none;}
+	select,input,img,select{vertical-align:middle;}
+	input{ font-size:12px;}
+	a{ text-decoration:none; color:#000;}
+	a:hover{color:#c00; text-decoration:none;}
+	.clear{clear:both;}
+
+	/* 大转盘样式 */
+	.banner{display:block;width:95%;margin-left:auto;margin-right:auto;margin-bottom: 20px;}
+	.banner .turnplate{display:block;width:100%;position:relative;}
+	.banner .turnplate canvas.item{width:100%;}
+	.banner .turnplate img.pointer{position:absolute;width:36%;height:40%;left:32%;top:28%;}
+	.more{display: block;width: 100%;position: fixed;top: 0;left: 0;height: 150px;}
+	.cloud{position: fixed;left: 0;top: 70%;width: 150px;}
+	.cloud2{position: fixed;right: 0;top: 32%;width: 50px;}
+	.cloud3{position: fixed;left: 0;top: 30%;width: 100px;}
+	@media screen and (max-width: 320px) {
+		.cloud{position: fixed;left: 0;top: 70%;width: 150px;}
+		.cloud2{position: fixed;right: 0;top: 30%;width: 50px;}
+		.cloud3{position: fixed;left: 0;top: 23%;width: 100px;}
+	}
+	@media screen and (min-width: 321px) and (max-width: 375px) {
+		.cloud{position: fixed;left: 0;top: 72%;width: 150px;}
+		.cloud2{position: fixed;right: 0;top: 32%;width: 50px;}
+		.cloud3{position: fixed;left: 0;top: 25%;width: 100px;}
+	}
+	@media screen and (min-width: 376px) {
+		.cloud{position: fixed;left: 0;top: 68%;width: 150px;}
+		.cloud2{position: fixed;right: 0;top: 32%;width: 50px;}
+		.cloud3{position: fixed;left: 0;top: 25%;width: 100px;}
+	}
+	@media screen and (max-height: 480px) {
+		.cloud{position: fixed;left: 0;top: 81%;width: 150px;}
+		.cloud2{position: fixed;right: 0;top: 35%;width: 50px;}
+		.cloud3{position: fixed;left: 0;top: 27%;width: 100px;}
+	}
+
+	#mark{width: 100%;height: 100%;background: rgba(0,0,0,0.5);position: fixed;top: 0;left: 0;display: none;}
+	.red-img{position: fixed;top: 10%;left: 5%;width: 90%;}
+</style>
+
+<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="js/awardRotate.js"></script>
+
+</head>
+<body style="background:url(images/body_bg.jpg);background-size:cover;">
+    <p>xiayinan傻哦</p>
+	
+</body>
+</html>
