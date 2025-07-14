@@ -589,7 +589,7 @@
 
     <div class="controls">
         <button id="startBtn" class="btn"><i class="fas fa-play-circle"></i> 开始抽签</button>
-<!--        <button id="autoBtn" class="btn"><i class="fas fa-bolt"></i> 自动抽签</button>-->
+        <button id="autoBtn" class="btn"><i class="fas fa-bolt"></i> 自动抽签</button>
         <button id="resetBtn" class="btn"><i class="fas fa-redo"></i> 重置</button>
     </div>
 
@@ -883,7 +883,14 @@
                     if (drawnNumbers.length < TOTAL_PARTICIPANTS) {
                         if (autoMode) {
                             setTimeout(() => {
-                                drawNextQian();
+                                $('.qian-area').fadeIn()
+                                $('.qian-tong').addClass('shaking');
+                                $status.text("签筒摇晃中...");
+
+                                setTimeout(() => {
+                                    $('.qian-tong').removeClass('shaking');
+                                    drawNextQian();
+                                }, 800);
                             }, 500);
                         } else {
                             isDrawing = false;
