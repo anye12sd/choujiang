@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抽签分组系统</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+
+        .header {
+            text-align: center;
+            margin: 20px 0 40px;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 3.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4, #fad0c4, #a1c4fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 3s infinite alternate;
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+            height: 4px;
+            background: linear-gradient(to right, transparent, #ff9a9e, #a1c4fd, transparent);
+            border-radius: 50%;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.85;
+            margin-top: 20px;
+            color: #e0f7fa;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff9a9e;
+            text-shadow: 0 0 10px rgba(255, 154, 158, 0.5);
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #a1c4fd;
+            margin-top: 5px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1400px;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* 签筒区域 */
+        .qian-area {
+            position: relative;
+            width: 600px;
+            height: 350px;
+            margin: 30px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform-style: preserve-3d;
+        }
+
+        .qian-tong {
+            position: relative;
+            width: 220px;
+            height: 280px;
+            z-index: 10;
+            transform-style: preserve-3d;
+            transform: translateY(30px);
+            transition: transform 0.5s;
+        }
+
+        .qian-tong-body {
+            position: absolute;
+            bottom: 0;
+            width: 220px;
+            height: 220px;
+            background: linear-gradient(to right, #8B4513, #A0522D, #8B4513);
+            border-radius: 10px 10px 40px 40px;
+            box-shadow:
+                    inset 0 -15px 25px rgba(0, 0, 0, 0.6),
+                    0 10px 30px rgba(0, 0, 0, 0.8);
+            border: 8px solid #5D2906;
+            transform: translateZ(10px);
+        }
+
+        .qian-tong-top {
+            position: absolute;
+            top: 0;
+            width: 270px;
+            height: 40px;
+            background: linear-gradient(to bottom, #D2B48C, #A0522D);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+            z-index: 5;
+            transform: translateZ(15px);
+        }
+
+        .qian-tong-top::before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            height: 15px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+            border-radius: 10px;
+        }
+
+        /* 签的样式 */
+        .qian {
+            position: absolute;
+            bottom: 40px;
+            width: 12px;
+            height: 0;
+            background: linear-gradient(to bottom, #f5f5f5, #e0e0e0);
+            border-radius: 3px;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+            transition: height 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1;
+            transform-style: preserve-3d;
+            transform-origin: bottom;
+        }
+
+        .qian-content {
+            position: absolute;
+            top: -140px;
+            left: -55px;
+            width: 120px;
+            height: 140px;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            border-radius: 12px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            z-index: 100;
+            transform-style: preserve-3d;
+            transform: rotateX(90deg);
+            opacity: 0;
+            transition: transform 0.7s, opacity 0.7s;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .qian-content::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .qian-content.show {
+            display: flex;
+            transform: rotateX(0deg) translateZ(20px);
+            opacity: 1;
+        }
+
+        .qian-content .number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+            z-index: 2;
+        }
+
+        .qian-content .group {
+            font-size: 1.4rem;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 20px;
+            border-radius: 25px;
+            z-index: 2;
+            font-weight: bold;
+        }
+
+        /* 分组区域 */
+        .groups-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .group {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            min-height: 240px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s, box-shadow 0.5s;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .group::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, #ff9a9e, #a1c4fd);
+        }
+
+        .group-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+            font-size: 1.6rem;
+            color: #ff9a9e;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 154, 158, 0.5);
+        }
+
+        .group-members {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            min-height: 180px;
+            padding: 10px;
+        }
+
+        .member {
+            width: 70px;
+            height: 100px;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            cursor: pointer;
+            position: relative;
+            transform: rotateY(0deg);
+        }
+
+        .member.flipped {
+            transform: rotateY(180deg);
+            background: linear-gradient(45deg, #ff9a9e, #fbc2eb);
+        }
+
+        .member-front, .member-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .member-front {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+        }
+
+        .member-back {
+            background: linear-gradient(45deg, #ff9a9e, #fbc2eb);
+            transform: rotateY(180deg);
+        }
+
+        .member .number {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .member .group-name {
+            font-size: 1rem;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        /* 控制按钮 */
+        .controls {
+            margin: 40px 0;
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 154, 158, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            outline: none;
+            position: relative;
+            overflow: hidden;
+            font-weight: bold;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 30px rgba(255, 154, 158, 0.7);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(2px) scale(0.98);
+        }
+
+        .btn:disabled {
+            background: linear-gradient(45deg, #777, #444);
+            cursor: not-allowed;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .status {
+            margin-top: 20px;
+            font-size: 1.3rem;
+            color: #e0f7fa;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            max-width: 80%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 动画效果 */
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 5px #ff9a9e, 0 0 10px #fad0c4;
+            }
+            50% {
+                text-shadow: 0 0 20px #ff9a9e, 0 0 30px #fad0c4;
+            }
+            100% {
+                text-shadow: 0 0 5px #ff9a9e, 0 0 10px #fad0c4;
+            }
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0) rotateZ(0deg); }
+            15% { transform: translateX(-15px) rotateZ(-3deg); }
+            30% { transform: translateX(12px) rotateZ(2deg); }
+            45% { transform: translateX(-10px) rotateZ(-2deg); }
+            60% { transform: translateX(8px) rotateZ(1deg); }
+            75% { transform: translateX(-5px) rotateZ(-1deg); }
+            90% { transform: translateX(3px) rotateZ(0.5deg); }
+            100% { transform: translateX(0) rotateZ(0deg); }
+        }
+
+        .shaking {
+            animation: shake 0.8s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-50px);}
+            60% {transform: translateY(-25px);}
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        .bounce {
+            animation: bounce 1s ease;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1100px) {
+            .groups-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .qian-area {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .groups-container {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .controls {
+                gap: 15px;
+            }
+
+            .btn {
+                padding: 12px 25px;
+                font-size: 1.1rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .qian-tong {
+                transform: scale(0.85);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px;
+                border-radius: 20px;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 154, 158, 0.8);
+            animation: float 15s infinite linear;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+
+<div class="header">
+    <h1><i class="fas fa-magic"></i> 抽签分组系统 <i class="fas fa-magic"></i></h1>
+
+    <div class="stats">
+        <div class="stat-item">
+            <div class="stat-value">33</div>
+            <div class="stat-label">参与者</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">6</div>
+            <div class="stat-label">分组</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="drawnCount">0</div>
+            <div class="stat-label">已抽取</div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="qian-area">
+        <div class="qian-tong">
+            <div class="qian-tong-body"></div>
+            <div class="qians-container"></div>
+        </div>
+    </div>
+
+<!--    <div class="status" id="status">准备开始抽签，请点击下方按钮</div>-->
+
+    <div class="controls">
+        <button id="startBtn" class="btn"><i class="fas fa-play-circle"></i> 开始抽签</button>
+        <button id="autoBtn" class="btn"><i class="fas fa-bolt"></i> 自动抽签</button>
+        <button id="resetBtn" class="btn"><i class="fas fa-redo"></i> 重置</button>
+    </div>
+
+    <div class="groups-container">
+        <!-- 分组将通过JS动态生成 -->
+    </div>
+</div>
+
+<div class="footer">
+    抽签分组系统 &copy; 2023 | 优化修复版 | 动画流畅无BUG
+</div>
+
+<script>
+    $(document).ready(function() {
+        // 创建背景粒子
+        function createParticles() {
+            const particlesContainer = $('#particles');
+            for (let i = 0; i < 60; i++) {
+                const size = Math.random() * 3 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+
+                const particle = $('<div class="particle"></div>');
+                particle.css({
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    left: `${posX}%`,
+                    top: `${posY}%`,
+                    animation: `float ${duration}s infinite ${delay}s`,
+                    opacity: Math.random() * 0.5 + 0.2
+                });
+                particlesContainer.append(particle);
+            }
+        }
+
+        createParticles();
+
+        // 常量
+        const TOTAL_PARTICIPANTS = 33;
+        const TOTAL_GROUPS = 6;
+
+        // 状态变量
+        let participants = [];
+        let groups = [];
+        let drawnNumbers = [];
+        let isDrawing = false;
+        let autoMode = false;
+        let groupAssignments = {};
+
+        // DOM 元素
+        const $qiansContainer = $('.qians-container');
+        const $groupsContainer = $('.groups-container');
+        const $startBtn = $('#startBtn');
+        const $autoBtn = $('#autoBtn');
+        const $resetBtn = $('#resetBtn');
+        const $status = $('#status');
+        const $drawnCount = $('#drawnCount');
+
+        // 初始化
+        init();
+
+        // 初始化函数
+        function init() {
+            createGroups();
+            createQians();
+            $startBtn.prop('disabled', false);
+            $autoBtn.prop('disabled', false);
+            $status.text("准备开始抽签，请点击下方按钮");
+            $drawnCount.text("0");
+        }
+
+        // 创建分组
+        function createGroups() {
+            $groupsContainer.empty();
+            groups = [];
+
+            for (let i = 1; i <= TOTAL_GROUPS; i++) {
+                const group = {
+                    id: i,
+                    members: []
+                };
+                groups.push(group);
+
+                const $group = $(`
+                        <div class="group" data-group="${i}">
+                            <div class="group-header">第${i}组</div>
+                            <div class="group-members" id="group-${i}"></div>
+                        </div>
+                    `);
+                $groupsContainer.append($group);
+            }
+        }
+
+        // 创建签
+        function createQians() {
+            $qiansContainer.empty();
+            participants = [];
+            drawnNumbers = [];
+
+            // 创建参与者数组
+            for (let i = 1; i <= TOTAL_PARTICIPANTS; i++) {
+                participants.push(i);
+            }
+
+            // 随机分配组别（确保每组人数大致相等）
+            const shuffled = [...participants].sort(() => Math.random() - 0.5);
+            groupAssignments = {};
+
+            for (let i = 0; i < TOTAL_PARTICIPANTS; i++) {
+                const groupId = (i % TOTAL_GROUPS) + 1;
+                groupAssignments[shuffled[i]] = groupId;
+            }
+
+            // 创建签的DOM元素
+            for (let i = 1; i <= TOTAL_PARTICIPANTS; i++) {
+                const $qian = $(`
+                        <div class="qian" data-number="${i}" data-group="${groupAssignments[i]}">
+                            <div class="qian-content">
+                                <div class="number">${i}</div>
+                                <div class="group">第${groupAssignments[i]}组</div>
+                            </div>
+                        </div>
+                    `);
+
+                // 随机位置
+                const left = 20 + Math.random() * 180;
+                $qian.css('left', `${left}px`);
+
+                // 随机高度（40-80px）
+                const height = 40 + Math.random() * 40;
+                setTimeout(() => {
+                    $qian.css('height', `${height}px`);
+                }, 100);
+
+                $qiansContainer.append($qian);
+            }
+        }
+
+        // 开始抽签
+        $startBtn.click(function() {
+            if (isDrawing || drawnNumbers.length >= TOTAL_PARTICIPANTS) return;
+
+            $startBtn.prop('disabled', true);
+            $autoBtn.prop('disabled', true);
+            isDrawing = true;
+            autoMode = false;
+
+            // 摇晃签筒
+            $('.qian-tong').addClass('shaking');
+            $status.text("签筒摇晃中...");
+
+            setTimeout(() => {
+                $('.qian-tong').removeClass('shaking');
+                drawNextQian();
+            }, 800);
+        });
+
+        // 自动抽签
+        $autoBtn.click(function() {
+            if (isDrawing || drawnNumbers.length >= TOTAL_PARTICIPANTS) return;
+
+            $startBtn.prop('disabled', true);
+            $autoBtn.prop('disabled', true);
+            isDrawing = true;
+            autoMode = true;
+            $status.text("自动抽签模式开始...");
+
+            drawNextQian();
+        });
+
+        // 抽取下一支签
+        function drawNextQian() {
+            // 找到未抽过的签
+            const availableQians = $(`.qian:not(.drawn)`);
+            if (availableQians.length === 0) {
+                isDrawing = false;
+                $status.text("所有签已抽完！");
+                return;
+            }
+
+            // 随机选择一支签
+            const randomIndex = Math.floor(Math.random() * availableQians.length);
+            const $qian = availableQians.eq(randomIndex);
+            const number = $qian.data('number');
+            const group = $qian.data('group');
+
+            // 标记为已抽取
+            $qian.addClass('drawn');
+            drawnNumbers.push(number);
+
+            // 更新状态
+            $status.text(`抽到 ${number} 号签，分配到第 ${group} 组`);
+            $drawnCount.text(drawnNumbers.length);
+
+            // 升起签
+            $qian.css({
+                'z-index': '100',
+                'height': '220px'
+            });
+
+            // 显示签内容
+            setTimeout(() => {
+                $qian.find('.qian-content').addClass('show');
+                $qian.addClass('bounce');
+
+                // 飞入分组
+                setTimeout(() => {
+                    flyToGroup($qian, number, group);
+                }, 1500);
+            }, 500);
+        }
+
+        // 签飞入分组
+        function flyToGroup($qian, number, group) {
+            const $targetGroup = $(`#group-${group}`);
+
+            // 创建成员卡片
+            const $member = $(`
+                    <div class="member">
+                        <div class="member-front">
+                            <div class="number">${number}</div>
+                            <div class="group-name">第${group}组</div>
+                        </div>
+                        <div class="member-back">
+                            <div class="number">${number}</div>
+                            <div class="group-name">第${group}组</div>
+                        </div>
+                    </div>
+                `);
+
+            // 添加到分组
+            $targetGroup.append($member);
+
+            // 获取位置信息
+            const qianPos = $qian.offset();
+            const memberPos = $member.offset();
+
+            // 创建飞行元素
+            const $flyQian = $qian.clone();
+            $flyQian.css({
+                position: 'fixed',
+                left: qianPos.left,
+                top: qianPos.top,
+                width: $qian.width(),
+                height: $qian.height(),
+                margin: 0,
+                opacity: 1,
+                transform: 'rotateY(0deg)',
+                'pointer-events': 'none',
+                'z-index': 1000
+            });
+            $('body').append($flyQian);
+
+            // 隐藏原始签
+            $qian.hide();
+
+            // 飞行动画
+            $flyQian.animate({
+                left: memberPos.left,
+                top: memberPos.top,
+                width: $member.width(),
+                height: $member.height(),
+                opacity: 0.8
+            }, {
+                duration: 1200,
+                // easing: 'easeInOutCubic',
+                step: function(now, fx) {
+                    if (fx.prop === 'width') {
+                        // 旋转效果
+                        const progress = fx.now / fx.end;
+                        const rotation = progress * 720; // 旋转两圈
+                        $(this).css('transform', `rotateY(${rotation}deg)`);
+                    }
+                },
+                complete: function() {
+                    $flyQian.remove();
+                    $member.addClass('flipped');
+
+                    // 继续抽签或结束
+                    if (drawnNumbers.length < TOTAL_PARTICIPANTS) {
+                        if (autoMode) {
+                            setTimeout(() => {
+                                drawNextQian();
+                            }, 500);
+                        } else {
+                            isDrawing = false;
+                            $startBtn.prop('disabled', false);
+                            $autoBtn.prop('disabled', false);
+                            $status.text("点击'开始抽签'继续...");
+                            $status.text("点击'开始抽签'继续...");
+                        }
+                    } else {
+                        $startBtn.prop('disabled', true).text('抽签完成');
+                        $autoBtn.prop('disabled', true);
+                        isDrawing = false;
+                        $status.text("所有签已抽完！");
+                    }
+                }
+            });
+        }
+
+        // 重置
+        $resetBtn.click(function() {
+            if (isDrawing) return;
+
+            createGroups();
+            createQians();
+            $startBtn.prop('disabled', false).text('开始抽签');
+            $autoBtn.prop('disabled', false);
+            $status.text("已重置，准备开始抽签...");
+        });
+    });
+</script>
+</body>
+</html>
