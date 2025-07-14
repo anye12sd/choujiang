@@ -28,7 +28,6 @@
 
         .header {
             text-align: center;
-            margin: 20px 0 40px;
             padding: 20px;
             position: relative;
             z-index: 10;
@@ -108,17 +107,20 @@
 
         /* 签筒区域 */
         .qian-area {
-            position: relative;
-            width: 600px;
-            height: 350px;
+            position: fixed;
+            top: calc(50vh - 140px);
+            left: calc(50vw - 110px);
             margin: 30px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            /*display: flex;*/
+            /*flex-direction: column;*/
+            /*align-items: center;*/
             transform-style: preserve-3d;
+            display: none;
+            z-index: 10;
         }
 
         .qian-tong {
+            margin: 0 auto;
             position: relative;
             width: 220px;
             height: 280px;
@@ -241,7 +243,8 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 30px;
             width: 100%;
-            margin-top: 40px;
+            margin-top: 20px;
+            grid-auto-flow: dense;
         }
 
         .group {
@@ -251,7 +254,7 @@
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            min-height: 240px;
+            min-height: 200px;
             transform-style: preserve-3d;
             transition: transform 0.5s, box-shadow 0.5s;
             overflow: hidden;
@@ -284,7 +287,7 @@
             flex-wrap: wrap;
             gap: 15px;
             justify-content: center;
-            min-height: 180px;
+            min-height: 120px;
             padding: 10px;
         }
 
@@ -346,7 +349,7 @@
 
         /* 控制按钮 */
         .controls {
-            margin: 40px 0;
+            margin: 20px 0;
             display: flex;
             gap: 25px;
             flex-wrap: wrap;
@@ -544,7 +547,7 @@
         }
 
         .footer {
-            margin-top: 30px;
+            margin-top: 15px;
             padding: 20px;
             text-align: center;
             color: rgba(255, 255, 255, 0.6);
@@ -586,7 +589,7 @@
 
     <div class="controls">
         <button id="startBtn" class="btn"><i class="fas fa-play-circle"></i> 开始抽签</button>
-        <button id="autoBtn" class="btn"><i class="fas fa-bolt"></i> 自动抽签</button>
+<!--        <button id="autoBtn" class="btn"><i class="fas fa-bolt"></i> 自动抽签</button>-->
         <button id="resetBtn" class="btn"><i class="fas fa-redo"></i> 重置</button>
     </div>
 
@@ -712,7 +715,6 @@
                             </div>
                         </div>
                     `);
-
                 // 随机位置
                 const left = 20 + Math.random() * 180;
                 $qian.css('left', `${left}px`);
@@ -737,6 +739,7 @@
             autoMode = false;
 
             // 摇晃签筒
+            $('.qian-area').fadeIn()
             $('.qian-tong').addClass('shaking');
             $status.text("签筒摇晃中...");
 
@@ -750,6 +753,7 @@
         $autoBtn.click(function() {
             if (isDrawing || drawnNumbers.length >= TOTAL_PARTICIPANTS) return;
 
+            $('.qian-area').fadeIn()
             $startBtn.prop('disabled', true);
             $autoBtn.prop('disabled', true);
             isDrawing = true;
@@ -773,7 +777,14 @@
             const randomIndex = Math.floor(Math.random() * availableQians.length);
             const $qian = availableQians.eq(randomIndex);
             const number = $qian.data('number');
-            const group = $qian.data('group');
+            let group = $qian.data('group');
+            const id = groups[group - 1].id
+            groups[group - 1].members.push(number)
+            if (id === 1 || id === 2 || id ===3) {
+                if(groups[group - 1].members.length === 5) {
+                    group += 3
+                }
+            }
 
             // 标记为已抽取
             $qian.addClass('drawn');
@@ -841,6 +852,7 @@
                 'z-index': 1000
             });
             $('body').append($flyQian);
+            $('.qian-area').fadeOut()
 
             // 隐藏原始签
             $qian.hide();
